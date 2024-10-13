@@ -5,6 +5,8 @@
 @inject NavigationManager Navigation
 @inject TheStudentManagementApplication.Services.IStudentService StudentService
 @inject IJSRuntime JSRuntime
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Administrator")]
 
 <PageTitle>Update / Delete Existing Student Information</PageTitle>
 

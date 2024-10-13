@@ -4,16 +4,16 @@ using TheStudentManagementApplication.Models;
 
 namespace TheStudentManagementApplication
 {
-    public class DbContextFactory : IDesignTimeDbContextFactory<StudentDbContext>
+    public class DbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
-        public StudentDbContext CreateDbContext(string[] args)
+        public AppDbContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<StudentDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
             //This will get the Connection string from the appsettings.json
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            return new StudentDbContext(optionsBuilder.Options);
+            return new AppDbContext(optionsBuilder.Options);
         }
     }
 }

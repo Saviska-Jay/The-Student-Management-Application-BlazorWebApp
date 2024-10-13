@@ -1,0 +1,30 @@
+﻿@page "/logout"
+@using Microsoft.AspNetCore.Authentication
+@inject NavigationManager navigationManager
+
+<div >
+            <div class="modal-content" style="align-items: center; border:none;">
+                <div class='top'>
+                    <img
+                     src="https://assets.streamlinehq.com/image/private/w_800,h_800,ar_1/f_auto/v1/icons/illustrations-brooklyn/interface/interface/logged-out-2-w34kx06jrcaj5fmzdlg7f.png?_a=DAJFJtWIZAAC" width="400px"/>
+                </div>
+
+            <h3 class="font-weight-bold">You Logged Out Successfully !</h3>
+            </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public HttpContext HttpContext { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        if (HttpContext.User.Identity.IsAuthenticated)
+        {
+            await HttpContext.SignOutAsync();
+            navigationManager.NavigateTo("/logout", true);
+        }
+    }
+
+}

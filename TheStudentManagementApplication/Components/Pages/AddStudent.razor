@@ -3,6 +3,8 @@
 @using TheStudentManagementApplication.Models
 @inject NavigationManager Navigation
 @inject TheStudentManagementApplication.Services.IStudentService StudentService
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Administrator,User")]
 
 <PageTitle>Add A New Student Information</PageTitle>
 

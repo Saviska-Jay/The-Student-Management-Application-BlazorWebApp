@@ -5,9 +5,9 @@ namespace TheStudentManagementApplication.Services
 {
     public class StudentService : IStudentService
     {
-        private readonly StudentDbContext _context;
+        private readonly AppDbContext _context;
 
-        public StudentService(StudentDbContext context)
+        public StudentService(AppDbContext context)
         {
             _context = context;
         }

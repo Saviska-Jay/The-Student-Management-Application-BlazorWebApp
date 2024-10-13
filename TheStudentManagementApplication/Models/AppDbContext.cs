@@ -3,11 +3,13 @@
 namespace TheStudentManagementApplication.Models
 {
     //This is for connect with the MS SQl table.
-    public class StudentDbContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public StudentDbContext(DbContextOptions<StudentDbContext>options) : base(options) 
+        public AppDbContext(DbContextOptions<AppDbContext>options) : base(options) 
         {
         }
         public DbSet<TheStudent> StudentInfoTable { get; set; }
+
+        public DbSet<TheUserAccount> UserAccountTable { get; set; }
     }
 }

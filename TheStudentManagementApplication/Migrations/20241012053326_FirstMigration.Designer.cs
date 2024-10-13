@@ -10,7 +10,7 @@ using TheStudentManagementApplication.Models;
 
 namespace TheStudentManagementApplication.Migrations
 {
-    [DbContext(typeof(StudentDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20241012053326_FirstMigration")]
     partial class FirstMigration
     {
