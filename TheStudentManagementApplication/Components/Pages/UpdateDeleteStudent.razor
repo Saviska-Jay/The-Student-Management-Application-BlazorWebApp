@@ -1,0 +1,128 @@
+﻿@page "/UpdateDeleteStudent"
+@rendermode InteractiveServer
+@using TheStudentManagementApplication.Models
+@using TheStudentManagementApplication.Services
+@inject NavigationManager Navigation
+@inject TheStudentManagementApplication.Services.IStudentService StudentService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Update / Delete Existing Student Information</PageTitle>
+
+<br />
+
+<h3 class="text-center font-weight-bold">Update / Delete Existing Student Information </h3>
+
+<nav class="navbar" >
+    <form class="form-inline " id="SearchBar" @onsubmit="SearchStudentByIndexNumber">
+        <input class="form-control mr-sm-4" type="search" placeholder="Search by Index Number" aria-label="Search" @bind-value="SearchIndexNumber">
+        <button class="btn btn-success my-2 my-sm-0" type="submit" id="SearchBtn">Search</button>
+    </form>
+</nav>
+
+<br />
+
+@if (students == null)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12 card">
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">Index Number</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Class Room</th>
+                        <th scope="col">Telephone Number</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Active ?</th>
+                        <th scope="col">Update / Delete</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if (students != null && students.Any())
+                    {
+                        @foreach (var student in students)
+                        {
+
+                            <tr>
+                                <th scope="row">@student.IndexNumber</th>
+                                <td>@student.FirstName</td>
+                                <td>@student.LastName</td>
+                                <td>@student.ClassRoom</td>
+                                <td>@student.TeleNumber</td>
+                                <td>@student.FullAddress</td>
+                                <td>@student.IsActiveAnswer</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" id="UpdateBtn" @onclick="() => NavigateToUpdate(student.ID)" >Update</button>
+                                    <button type="button" class="btn btn-danger" id="DeleteBtn" @onclick="() => DeleteStudent(student.ID, student.IndexNumber)">Delete</button>
+                                </td>
+                            </tr>
+                            <br />
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+
+@code {
+
+    private List<Models.TheStudent> students;
+
+    private int? SearchIndexNumber;
+
+    protected override async Task OnInitializedAsync()
+    {
+        students = await StudentService.GetAllStudents();
+    }
+
+    private async Task SearchStudentByIndexNumber()
+    {
+        if(SearchIndexNumber.HasValue)
+        {
+            try
+            {
+                var student = await StudentService.GetStudentByIndexNumber(SearchIndexNumber.Value);
+                students = new List<TheStudent> { student };
+            }
+            catch (Exception ex)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", ex.Message);
+                students = await StudentService.GetAllStudents();
+            }
+        }
+        else
+        {
+            students = await StudentService.GetAllStudents();
+        }
+    }
+
+    private void NavigateToUpdate(int studentID)
+    {
+        Navigation.NavigateTo($"/UpdateStudent/{studentID}");
+    }
+
+    private async Task DeleteStudent(int studentID, int? indexNumber)
+    {
+        bool isDeleteConfirmed = await JSRuntime.InvokeAsync<bool>("confirm",$"Are you sure you want to delete the student with Index Number {indexNumber} ?");
+        if (isDeleteConfirmed)
+        {
+            await StudentService.DeleteStudent(studentID);
+            students = await StudentService.GetAllStudents();
+        }
+
+    }
+
+}

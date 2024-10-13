@@ -1,0 +1,190 @@
+﻿@page "/AddStudent"
+@rendermode InteractiveServer
+@using TheStudentManagementApplication.Models
+@inject NavigationManager Navigation
+@inject TheStudentManagementApplication.Services.IStudentService StudentService
+
+<PageTitle>Add A New Student Information</PageTitle>
+
+<br />
+
+<h3 class="text-center font-weight-bold">Add A New Student Information</h3>
+
+
+<EditForm Model="@newStudent" OnValidSubmit="AddANewStudent" class="StudentForm table-bordered">
+    
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+
+    <div class="form-row">
+
+
+        <div class="form-group col-md-6">
+            <label for="indexNumber" class="font-weight-bold">Index Number : </label>
+            <InputNumber class="form-control" id="indexNumber" @bind-Value="newStudent.IndexNumber"/>
+            <ValidationMessage For="@(() => newStudent.IndexNumber)"></ValidationMessage>
+        </div>
+
+
+        <div class="form-group col-md-6">
+            <p></p>
+        </div>
+
+
+        <div class="form-group col-md-6">
+            <label for="firstName" class="font-weight-bold">First Name : </label>
+            <InputText class="form-control" id="firstName" @bind-Value="newStudent.FirstName" placeholder="E.g. : Kasun" />
+            <ValidationMessage For="@(() => newStudent.FirstName)"></ValidationMessage>
+        </div>
+
+
+        <div class="form-group col-md-6">
+            <label for="lastName" class="font-weight-bold">Last Name : </label>
+            <InputText class="form-control" id="lastName" @bind-Value="newStudent.LastName" placeholder="E.g. : Perera" />
+            <ValidationMessage For="@(() => newStudent.LastName)"></ValidationMessage>
+        </div>
+
+
+        <div class="form-group col-md-6">
+            <label for="classRoom" class="font-weight-bold">Class Room : </label>
+            <InputText class="form-control" id="classRoom" @bind-Value="newStudent.ClassRoom" placeholder="E.g. : 10 - B" />
+            <ValidationMessage For="@(() => newStudent.ClassRoom)"></ValidationMessage>
+        </div>
+
+
+        <div class="form-group col-md-6">
+            <label for="telNo" class="font-weight-bold">Telephone Number : </label>
+            <InputText class="form-control" id="TelNo" @bind-Value="newStudent.TeleNumber" placeholder="E.g. : 0771113344" />
+            <ValidationMessage For="@(() => newStudent.TeleNumber)"></ValidationMessage>
+        </div>
+
+
+        <br />
+        <br />
+
+
+        <fieldset>
+            <legend>Address : </legend>
+            <div class="form-group col-md-12">
+                <label for="addressNo" class="font-weight-bold">No. : </label>
+                <InputText class="form-control" id="addressNo" @bind-Value="newStudent.AddressNumber" placeholder="E.g. : 33/5" />
+                <ValidationMessage For="@(() => newStudent.AddressNumber)"></ValidationMessage>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="addressRoad" class="font-weight-bold">Road : </label>
+                <InputText class="form-control" id="addressRoad" @bind-Value="newStudent.AddressRoad" placeholder="E.g. : Katugastota Road" />
+                <ValidationMessage For="@(() => newStudent.AddressRoad)"></ValidationMessage>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="addressCity" class="font-weight-bold">City : </label>
+                <InputText class="form-control" id="addressCity" @bind-Value="newStudent.AddressCity" placeholder="E.g. : Kandy" />
+                <ValidationMessage For="@(() => newStudent.AddressCity)"></ValidationMessage>
+            </div>
+        </fieldset>
+
+    </div>
+
+    <br />
+    <br />
+
+    <div class="form-check text-center">
+        <InputCheckbox class="form-check-input border-3" type="checkbox" id="flexCheckDefault" style="width:20px;height:20px" @bind-Value="newStudent.IsActive" />
+        <ValidationMessage class="validation-message" For="@(() => newStudent.IsActive)"></ValidationMessage>
+
+        <label class="form-check-label font-weight-bold" for="flexCheckDefault">
+            : This Is An Active Student.
+        </label>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success  font-weight-bold " id="AddStudentBtn">Add A New Student</button>
+    </div>
+
+</EditForm>
+
+
+
+
+
+
+
+<br />
+<br />
+
+
+@if (students == null)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12 card">
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">Index Number</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Class Room</th>
+                        <th scope="col">Telephone Number</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Is This An Active Student ?</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if (students != null && students.Any())
+                    {
+                        @foreach (var student in students)
+                        {
+                            <tr>
+                                <th scope="row">@student.IndexNumber</th>
+                                <td>@student.FirstName</td>
+                                <td>@student.LastName</td>
+                                <td>@student.ClassRoom</td>
+                                <td>@student.TeleNumber</td>
+                                <td>@student.FullAddress</td>
+                                <td>@student.IsActiveAnswer</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+<br />
+<br />
+
+@code {
+    private List<Models.TheStudent> students;
+
+    private Models.TheStudent newStudent = new Models.TheStudent
+        {
+            IndexNumber = null
+        };
+
+    protected override async Task OnInitializedAsync()
+    {
+        students = await StudentService.GetAllStudents();
+    }
+
+    private async Task AddANewStudent()
+    {
+
+        await StudentService.AddStudent(newStudent);
+
+        students = await StudentService.GetAllStudents();
+
+        newStudent = new Models.TheStudent();
+    }
+}

@@ -1,0 +1,35 @@
+﻿@page "/"
+
+<PageTitle>Welcome</PageTitle>
+
+<h1 class="text-center">Student Info Management Application</h1>
+
+<br />
+
+<h3 class="text-center">( Admin Login Portal )</h3>
+
+<br />
+
+<p class="font-weight-bold text-center">If you are an admin, log in using your email and password.</p>
+
+<form class="LoginForm">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="adminEmail" class="font-weight-bold">Email : </label>
+            <input type="email" class="form-control" id="adminEmail" placeholder="example@email.com" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="adminPassword" class="font-weight-bold">Password : </label>
+            <input type="password" class="form-control" id="adminPassword" placeholder="Password" required>
+        </div>
+    </div>
+    <br />
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-info  font-weight-bold " id="LoginBtn">Log In</button>
+    </div>
+</form>
+
+@code {
+
+}

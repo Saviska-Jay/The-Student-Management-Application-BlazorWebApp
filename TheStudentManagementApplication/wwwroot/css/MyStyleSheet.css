@@ -1,0 +1,73 @@
+﻿.StudentForm {
+    border: 2px solid #07fc03;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 2em;
+    margin-right: auto;
+    margin-left: auto;
+    width: 50%;
+    background-color: #beffbd;
+    box-shadow: 2px 2px 15px black;
+}
+
+#AddStudentBtn, #LoginBtn, #CancelBtn, #SearchBtn {
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    padding-left: 3em;
+    padding-right: 3em;
+    font-weight: bolder;
+    box-shadow: 2px 2px 5px black;
+}
+
+.LoginForm {
+    border: 2px solid #03fcdf;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 2em;
+    margin-right: auto;
+    margin-left: auto;
+    width: 50%;
+    background-color: #c7fcf8;
+    box-shadow: 2px 2px 15px black;
+}
+
+
+#UpdateBtn, #DeleteBtn {
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    font-weight: bolder;
+    box-shadow: 2px 2px 5px black;
+    text-align: center;
+    justify-content: center;
+}
+
+.StudentUpdateForm {
+    border: 2px solid #fcc603;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 2em;
+    margin-right: auto;
+    margin-left: auto;
+    width: 50%;
+    background-color: #fcecb1;
+    box-shadow: 2px 2px 15px black;
+}
+
+.validation-message {
+    color: red;
+    font-size:0.8em;
+    font-weight:bolder;
+    margin:0.5em;
+}
+
+#SearchBar {
+    padding: 1em;
+    margin: 0.5em;
+    border-radius: 1em;
+    background-color: #e6eaeb;
+    box-shadow: 1px 1px 5px black;
+}
